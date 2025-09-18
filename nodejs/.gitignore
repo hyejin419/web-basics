@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# VSCode settings
+.vscode/
+
+# package.json
+package.json
+package-lock.json

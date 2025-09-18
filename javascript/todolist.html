@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>To do List</title>
+</head>
+<body>
+  <h2>🌞To Do🌞</h2>
+  <input id="todoInput" type="text" />
+  <button onclick="addTodo()">추가</button>
+  
+  <h4>🔥List🔥</h4>
+  <ul id="todoList"></ul>
+
+  <script>
+    const dbName = "TodoDB";
+    const storeName = "todos";
+    let db;
+
+    const request = indexedDB.open(dbName, 1);
+
+    request.onupgradeneeded = function (e) {
+      db = e.target.result;
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.createObjectStore(storeName, { keyPath: "id", autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = function (e) {
+      db = e.target.result;
+      loadTodos();
+    };
+
+    request.onerror = function (e) {
+      console.error("DB 오류:", e.target.error);
+    };
+
+    function addTodo() {
+      const input = document.getElementById("todoInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const transaction = db.transaction([storeName], "readwrite");
+      const store = transaction.objectStore(storeName);
+      store.add({ text });
+
+      transaction.oncomplete = () => {
+        input.value = "";
+        loadTodos();
+      };
+    }
+
+    function loadTodos() {
+      const transaction = db.transaction([storeName], "readonly");
+      const store = transaction.objectStore(storeName);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        const todos = request.result;
+        const list = document.getElementById("todoList");
+        list.innerHTML = "";
+
+        todos.forEach(todo => {
+          const li = document.createElement("li");
+
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = todo.text;
+          input.disabled = true;
+
+          const editBtn = document.createElement("button");
+          editBtn.textContent = "수정";
+          let isEditing = false;
+
+          editBtn.onclick = () => {
+            isEditing = !isEditing;
+            input.disabled = !isEditing;
+            editBtn.textContent = isEditing ? "저장" : "수정";
+
+            if (!isEditing) {
+              const newText = input.value.trim();
+              if (newText !== "") {
+                const transaction = db.transaction([storeName], "readwrite");
+                const store = transaction.objectStore(storeName);
+                store.put({ ...todo, text: newText });
+                transaction.oncomplete = () => loadTodos();
+              }
+            }
+          };
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "삭제";
+          delBtn.onclick = () => deleteTodo(todo.id);
+
+          li.appendChild(input);
+          li.appendChild(editBtn);
+          li.appendChild(delBtn);
+          list.appendChild(li);
+        });
+      };
+    }
+
+    function deleteTodo(id) {
+      const transaction = db.transaction([storeName], "readwrite");
+      const store = transaction.objectStore(storeName);
+      store.delete(id);
+      transaction.oncomplete = () => loadTodos();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>promise 함수</title>
+</head>
+<body>
+  <script>
+  function getBanana() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('🍌')
+        }, 1000)
+    })
+}
+
+function getApple () {
+  return new Promise((resolve) => {
+    setTimeout(()=> {
+      resolve("🍎")
+    },3000)
+  })
+}
+
+function getOrange() {
+  return Promise.reject(new Error("오렌지 없음"))//복습!!
+}
+
+getBanana()
+    .then((banana) => getApple().then((apple) => [banana, apple]))
+    .then(console.log)
+//바나나호출, 리졸브되어 바나나를 매개변수로 받는다. 바로 익명함수에서 겟애플 호출,
+//3초가 지난 후 리졸브가 실행되어 사과를 받는다. 
+//바나나와 사과를 배열로 묶어줌
+//순차적으로 실행됨(4초 걸림)
+
+
+// Promise.all: 병렬적으로 한번에 Promise들을 실행. 하나의 프로미스라도 실패하면 전체를 에러로 처리함
+Promise.all([getBanana(), getApple()])
+    .then((fruits) => console.log('all', fruits))
+    //3초에 맞춰서 같이 나옴
+
+    Promise.all([getBanana(), getApple(), getOrange()])
+    .then((fruits) => console.log('all', fruits))
+    .catch(console.log)
+
+// Promise.race: 주어진 Promise중에 가장 빨리 수행된 것이 실행
+Promise.race([getBanana(), getApple()])
+    .then((fruits) => console.log('race', fruits))
+
+// Promise.allSettled: 여러 프로미스를 병렬적으로 처리하되 하나의 프로미스가 실패해도 무조건 이행
+Promise.allSettled([getBanana(), getApple(), getOrange()])
+    .then((fruits) => console.log('allSettled', fruits)) //결과를 allSettled에 입력
+    .catch(console.log) //결과를 찍는다
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>로그인</title>
+    </head>
+    <body>
+        <h2>로그인 페이지</h2>
+        <input type="text" id="userid" placeholder="아이디 입력" /><br />
+        <input type="password" id="userpw" placeholder="비밀번호 입력" /><br />
+        <button onclick="login()">로그인</button>
+
+        <script>
+            function login() {
+                const id = document.getElementById("userid").value;
+                const pw = document.getElementById("userpw").value;
+
+                // GET 방식으로 fetch 요청
+                fetch(
+                    `/login?userid=${encodeURIComponent(
+                        id
+                    )}&userpw=${encodeURIComponent(pw)}`
+                )
+                    .then((res) => res.text())
+                    .then((html) => {
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    });
+            }
+        </script>
+    </body>
+</html>

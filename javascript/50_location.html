@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>location 객체</title>
+</head>
+<body>
+  <h2>location 객체</h2>
+
+  <button onclick="showLocationInfo()">주소 정보 보기</button>
+  <button onclick="goToNaver()">네이버로 이동</button>
+  <button onclick="reloadPage()">페이지 새로고침</button>
+
+  <script>
+    // 주소 정보를 출력하는 함수
+    function showLocationInfo() { //호이스팅
+      console.log("전체 URL:", location.href); //현재 페이지의 url을 알려줌
+      console.log("프로토콜:", location.protocol);
+      console.log("호스트:", location.host);
+      console.log("호스트명:", location.hostname);  //ip
+      console.log("포트번호:", location.port); 
+      console.log("경로:", location.pathname);
+      console.log("쿼리 문자열:", location.search);  //쿼리: db나 검색엔진에서 정보를 요청하는 것
+      console.log("해시값:", location.hash); //해시: 암호화시켜서 보낸 값들(입력값을 고정된 길이의 값으로 바꾸는 함수 또는 자료구조)
+    }
+
+    // 다른 페이지로 이동
+    function goToNaver() {
+      location.href = "https://www.naver.com"; //네이버 주소로 덮어 씌우기
+    }
+
+    // 현재 페이지를 새로고침
+    function reloadPage() {
+      location.reload();
+    }
+  </script>
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>정규식</title>
+</head>
+<body>
+  <script>
+/*
+    /패턴/
+    new RegExp('패턴')
+*/
+    const regex = /apple/
+    console.log(regex.test("I have an apple"))  //true
+    console.log(regex.test("I like bananas"))  //flase
+
+    const text = "내 핸드폰 번호는 010-1234-5678 입니다."
+    const result = text.match(/\d{3}-\d{4}-\d{4}/) //true/false
+    console.log(result[0])
+
+    const word = "내 이름은 김사과입니다."
+    const clean = word.replace(/김사과/, "****")
+    console.log(clean)
+  </script>
+</body>
+</html>

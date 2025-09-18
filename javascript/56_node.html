@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>node</title>
+</head>
+<body>
+  <div id="box"></div>
+
+  <ul id="list">
+    <li id="item1">첫 번째 항목</li>
+    <li id="item2">두 번째 항목</li>
+  </ul>
+
+  <div id="wrapper">
+    <p id="old">기존 문단</p>
+  </div>
+
+  <script>
+    const div = document.getElementById("box");
+    //<p></p>
+    const p = document.createElement("p");
+    //<p>새 문단 추가!</p>
+    p.innerText = "새 문단 추가!";
+    // <div id="box"><p>새 문단 추가!</p></div>
+    div.appendChild(p);
+
+    const ul = document.getElementById("list"); 
+    const li = document.getElementById("item1"); 
+    ul.removeChild(li);  // li 제거
+
+    const wrapper = document.getElementById("wrapper");
+  const oldNode = document.getElementById("old");
+//<p></p>
+  const newNode = document.createElement("p");
+  //<p><새로운 문단입니다/p>
+  newNode.innerText = "새로운 문단입니다";
+  wrapper.replaceChild(newNode, oldNode); //oldNode를 newNode로 바꾸겠다.
+
+
+    //<li>사과</li>
+    const newItem = document.createElement("li")
+    //<li>사과</li>
+    newItem.innerText = "사과";
+    const existingItem = ul.firstElementChild;
+    ul.insertBefore(newItem, existingItem); // 사과가 바나나 앞에 추가됨
+    
+    const original = document.getElementById("wrapper")
+    const clone = original.cloneNode(true) //false: 현재 노드만 복사 / true: 깊은 복사
+    document.body.appendChild(clone)
+  </script>
+</body>
+</html>

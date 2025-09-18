@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>윈도우 객체</title>
+</head>
+<body>
+    <script>
+    const hello = function () {
+        alert('안녕하세요 자바스크립트')
+    } //hello함수는 alert를 띄우는 함수이다.
+    const st = setTimeout(hello, 2000) 
+    clearTimeout(st) 
+    //2초뒤 실행 예약했지만 바로 취소했기 때문에 실행되지 않는다.
+
+    
+    const si = setInterval(hello, 3000)
+    //3초마다 hello()함수가 반복 실행된다.
+    
+    const clearInter = function() {
+    clearInterval(si)
+    alert("Hello 함수가 중지됨")
+    }
+    //clearInter() 함수를 호출하면 clearInterval(si)로 반복을 중단하고 alert가 출력된다.
+
+/*
+    setTimeout(함수, 시간) : 지정된 시간 후에 한 번만 함수 실행
+    clearTimeout(타이머ID) : 아직 실행되지 않은 setTimeout을 취소
+    setInterval(함수, 시간) : 지정된 시간마다 반복적으로 함수 실행
+    clearInterval(타이머ID) : 반복을 멈추는 함수
+*/
+    </script>
+    <button onclick="clearInter()">중지</button>
+</body>
+</html>

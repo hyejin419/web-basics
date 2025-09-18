@@ -1,0 +1,23 @@
+class User {
+  #password = "";  
+  <!--프라이빗 필드 선언
+        #을 붙이면 클래스 내부에서만 접근 가능한 private필드로, 
+        외부에서 접근하거나 수정할 수 없다.-->
+
+  constructor(userid, password) { <!--객체가 생성될 때 useid와 비밀번호를 초기화한다.-->
+    this.userid = userid;
+    this.#password = password;
+  }
+
+  checkPassword(input) { <!--입력한 값과 실제 비밀번호가 같은지 확인하는 메서드-->
+    return this.#password === input;
+  }
+}
+const user = new User("apple", "1111");
+
+console.log(user.userid); <!--apple-->
+console.log(user.checkPassword("1111")); <!--true(비밀번호 일치)-->
+console.log(user.checkPassword("wrong")); <!--false-->
+
+/*user.password  = '1234 (객체를 새로 만듦)
+console.log(user.password);*/
